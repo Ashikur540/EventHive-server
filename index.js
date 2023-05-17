@@ -39,6 +39,7 @@ DBConnect();
 
 
 const costumesCollection = client.db('EventHiveDb').collection('costumes');
+const MakupServiceCollection = client.db('EventHiveDb').collection('Makeupservices');
 
 
 
@@ -80,10 +81,45 @@ app.get("/costumes", async (req, res) => {
         })
     }
 })
+app.get("/makeup-artists", async (req, res) => {
+    try {
+        // const query = {};
+        // const cursor = costumesCollection.find(query);
+        const result = await MakupServiceCollection.find({}).toArray();
+        res.send({
+            success: true,
+            message: `successfully got the data `,
+            data: result
+        });
+        // console.log(result);
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message
+        })
+    }
+})
 app.get("/costumes/:id", async (req, res) => {
     try {
         const id = req.params.id
         const result = await costumesCollection.findOne({ _id: new ObjectId(id) });
+        res.send({
+            success: true,
+            message: `successfully got the data `,
+            data: result
+        });
+        // console.log(result);
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message
+        })
+    }
+})
+app.get("/makeup-artists/:id", async (req, res) => {
+    try {
+        const id = req.params.id
+        const result = await MakupServiceCollection.findOne({ _id: new ObjectId(id) });
         res.send({
             success: true,
             message: `successfully got the data `,
